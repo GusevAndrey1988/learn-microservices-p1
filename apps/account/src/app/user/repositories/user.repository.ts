@@ -8,16 +8,16 @@ import { UserEntity } from "../user/entities/user.entity";
 export class UserRepository {
     constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
 
-    async create(user: UserEntity): Promise<User> {
+    async createUser(user: UserEntity) {
         const newUser = new this.userModel(user);
         return newUser.save();
     }
 
-    async findUser(email: string): Promise<User | null> {
+    async findUser(email: string) {
         return this.userModel.findOne({ email }).exec();
     }
 
-    async deleteUser(email: string): Promise<DeleteResult> {
+    async deleteUser(email: string) {
         return this.userModel.deleteOne({ email }).exec();
     }
 }

@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@purple/interfaces": ["libs/interfaces/src/index.ts"]
+      "@purple/interfaces": ["libs/interfaces/src/index.ts"],
+      "@purple/paseto": ["libs/paseto/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

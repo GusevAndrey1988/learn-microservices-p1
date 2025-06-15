@@ -1,0 +1,9 @@
+{
+  "name": "paseto",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/paseto/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project paseto --web",
+  "targets": {}
+}

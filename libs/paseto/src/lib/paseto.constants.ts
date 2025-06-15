@@ -1,0 +1,1 @@
+export const PASETO_MODULE_OPTION = 'MODULE_OPTIONS';
