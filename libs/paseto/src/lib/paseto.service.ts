@@ -46,6 +46,6 @@ export class PasetoService {
     }
 
     private isPublicKey(key: object): key is PublicKey {
-        return 'secretKey' in key && 'publicKey' in key;
+        return 'privateKey' in key && 'publicKey' in key;
     }
 }

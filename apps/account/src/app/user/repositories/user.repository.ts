@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { User } from "../user/models/user.model";
-import { DeleteResult, Model } from "mongoose";
-import { UserEntity } from "../user/entities/user.entity";
+import { Model } from "mongoose";
+import { User } from "../models/user.model";
+import { UserEntity } from "../entities/user.entity";
 
 @Injectable()
 export class UserRepository {
