@@ -10,10 +10,10 @@ export namespace AccountUserInfo {
   }
 
   export class Response {
-    user: Omit<IUser, 'passwordHash'>;
+    profile: Omit<IUser, 'passwordHash'>;
 
-    constructor(user: IUser) {
-      this.user = user;
+    constructor(profile: IUser) {
+      this.profile = profile;
     }
   }
 }
