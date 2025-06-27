@@ -1,4 +1,4 @@
-import { CourseGetCourse, PaymentCheck, PaymentGenerateLink } from "@purple/contracts";
+import { CourseGetCourse, PaymentCheck, PaymentGenerateLink, PaymentStatus } from "@purple/contracts";
 import { UserEntity } from "../entities/user.entity";
 import { BuyCourseSagaState } from "./buy-course.state";
 import { PurchaseState } from "@purple/interfaces";
@@ -37,7 +37,7 @@ export class BuyCourseSagaStateStarted extends BuyCourseSagaState {
     return { paymentLink, user: this.saga.user };
   }
 
-  public checkPayment(): Promise<{ user: UserEntity; }> {
+  public checkPayment(): Promise<{ user: UserEntity; status: PaymentStatus; }> {
     throw new Error("Нельзя проверить платёж, который не начался");
   }
 
@@ -52,7 +52,7 @@ export class BuyCourseSagaStateProcess extends BuyCourseSagaState {
     throw new Error("Нельзя создать ссылку на оплату в процессе");
   }
 
-  public async checkPayment(): Promise<{ user: UserEntity; }> {
+  public async checkPayment(): Promise<{ user: UserEntity; status: PaymentStatus; }> {
     const { status } = await this.saga
       .rmqService.send<PaymentCheck.Request, PaymentCheck.Response>(
         PaymentCheck.topic,
@@ -74,7 +74,7 @@ export class BuyCourseSagaStateProcess extends BuyCourseSagaState {
         break;
     }
 
-    return { user: this.saga.user };
+    return { user: this.saga.user, status };
   }
 
   public cancel(): Promise<{ user: UserEntity; }> {
@@ -87,7 +87,7 @@ export class BuyCourseSagaStateFinished extends BuyCourseSagaState {
     throw new Error("Нельзя оплатить купленный курс");
   }
 
-  public checkPayment(): Promise<{ user: UserEntity; }> {
+  public checkPayment(): Promise<{ user: UserEntity; status: PaymentStatus; }> {
     throw new Error("Нельзя проверить платёж по купленнуму курсу");
   }
 
@@ -103,7 +103,7 @@ export class BuyCourseSagaStateCanceled extends BuyCourseSagaState {
     return this.saga.getState().pay();
   }
 
-  public checkPayment(): Promise<{ user: UserEntity; }> {
+  public checkPayment(): Promise<{ user: UserEntity; status: PaymentStatus; }> {
     throw new Error("Нельзя проверить платёж по отменённому курсу");
   }
 
