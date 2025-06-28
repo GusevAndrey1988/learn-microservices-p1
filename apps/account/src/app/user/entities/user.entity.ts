@@ -1,4 +1,4 @@
-import { IUser, IUserCourses, PurchaseState, UserRole } from "@purple/interfaces";
+import { IDomainEvent, IUser, IUserCourses, PurchaseState, UserRole } from "@purple/interfaces";
 import { hash, genSalt, compare } from "bcryptjs";
 
 export class UserEntity implements IUser {
@@ -8,6 +8,7 @@ export class UserEntity implements IUser {
   passwordHash: string;
   role: UserRole;
   courses?: IUserCourses[];
+  events: IDomainEvent[] = [];
 
   constructor(user: IUser) {
     this.id = user.id;
@@ -39,6 +40,8 @@ export class UserEntity implements IUser {
       }
       return c;
     });
+
+    this.events.push()
 
     return this;
   }
