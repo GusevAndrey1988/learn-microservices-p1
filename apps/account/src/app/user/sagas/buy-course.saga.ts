@@ -11,7 +11,9 @@ export class BuyCourseSaga {
     public user: UserEntity,
     public courseId: string,
     public rmqService: RMQService
-  ) { }
+  ) {
+    this.setState(user.getCourseState(courseId), courseId);
+  }
 
   setState(state: PurchaseState, courseId: string) {
     switch (state) {
