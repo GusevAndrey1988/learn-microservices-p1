@@ -6,7 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RMQModule, RMQService, RMQTestService } from 'nestjs-rmq';
 import { INestApplication } from '@nestjs/common';
 import { UserRepository } from './repositories/user.repository';
-import { AccountBuyCourse, AccountLogin, AccountRegister, AccountUserInfo, CourseGetCourse, PaymentGenerateLink } from '@purple/contracts';
+import { AccountBuyCourse, AccountCheckPayment, AccountLogin, AccountRegister, AccountUserInfo, CourseGetCourse, PaymentCheck, PaymentGenerateLink } from '@purple/contracts';
 import { AuthModule } from '../auth/auth.module';
 import { V4 } from 'paseto';
 
@@ -107,6 +107,22 @@ describe('AuthController', () => {
         }
       )
     ).rejects.toThrow();
+  });
+
+  it('CheckPayment', async () => {
+    rmqService.mockReply<PaymentCheck.Response>(PaymentCheck.topic, {
+      status: 'success',
+    });
+
+    const res = await rmqService.triggerRoute<AccountCheckPayment.Request, AccountCheckPayment.Response>(
+      AccountCheckPayment.topic,
+      {
+        courseId,
+        userId
+      }
+    );
+
+    expect(res.status).toEqual('success');
   });
 
   afterAll(async () => {
